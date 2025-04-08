@@ -9,7 +9,7 @@ def main():
         print ("1 - wyświetl co u znajomych")
         print ("2 - dodaj nowego użytkownika")
         print ("3 - usuń użytkownika")
-        print("3 - edytuj użytkownika")
+        print ("3 - edytuj użytkownika")
         print ("===========MENU=============")
 
 
