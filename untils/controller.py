@@ -1,25 +1,54 @@
+from notatnik import get_coordinates
+
+
 def get_user_info(users_data: list) -> None:
     for user in users_data:
-        print(f"Twój znajomy{user['name']}, z miejscowości: {user['Location']} opublikował {user['posts']} postów")
+        print(f"Twój znajomy {user['name']}, z miejscowości: {user['location']} opublikował {user['posts']} postów")
 
 
 def add_user(users_data: list) -> None:
-    new_name = input('podaj imie nowego uzytkownika')
-    new_location = input('podaj lokalizacje uztykownika')
-    new_posts = int(input('podaj liczbe postow nowego uztykownika'))
-    users_data.append({"name": new_name, "Location": new_location, "posts": new_posts}, )
-
+    new_name = input('podaj imię nowego uzytkownika: ')
+    new_location = input('podaj lokalizację uzytkownika: ')
+    new_posts = int(input('podaj liczbę postów nowego uzytkownika: '))
+    users_data.append({"name": new_name, "location": new_location, "posts": new_posts}, )
 
 def remove_user(users_data: list) -> None:
-    uzytkownik_do_usuniecia = input('podaj uzytkownika do usuniecia: ')
+    uzytkownik_do_usunięcia = input('podaj uzytkownika do usuniecia: ')
 
     for user in users_data:
-        if user['name'] == uzytkownik_do_usuniecia:
+        if user['name'] == uzytkownik_do_usunięcia:
             users_data.remove(user)
-def update_user(users_data:list)->None:
-    uzytkownik_do_usuniecia = input('podaj uzytkownika do edeycji: ')
+
+def update_user(users_data: list) -> None:
+
+    uzytkownik_do_edycji = input('podaj uzytkownik do edycja: ')
     for user in users_data:
-        if user['name'] == uzytkownik_do_usuniecia:
-            user['name']=input('podaj nowe imie uzytkownika: ')
-            user['Location']=input('podaj nowa lokazlizacje uzytkownika: ')
-            user['posts']=int (input('podaj liczbe postow: '))
+        if user['name'] == uzytkownik_do_edycji:
+            user['name'] = input('podaj nowe imie uzytkownika:')
+            user['location'] = input('podaj nową lokalizację uzytkownik:')
+            user['posts'] = int(input('podaj nowa liczbe postów:'))
+
+
+def get_coordinates(city:str)->list:
+    import requests
+    from bs4 import BeautifulSoup
+
+    url=f'https://pl.wikipedia.org/wiki/{city}'
+    response = requests.get(url).text
+    response_html = BeautifulSoup(response, 'html.parser')
+    longitude =float( response_html.select('.longitude')[1].text. replace(',', '.'))
+    latitude =float( response_html.select('.latitude')[1].text.replace(',', '.'))
+    return [latitude, longitude]
+
+
+def get_map(users_data:list)-> None:
+    import folium
+    map = folium.Map(location=(52.23, 21.00), zoom_start=6)
+    for user in users_data:
+        coordinates: list = get_coordinates(user['location'])
+
+        folium.Marker(
+            location=(coordinates[0], coordinates[1]),
+            popup=f"Twój znajomy {user['name']}, <br/> miejscowość: {user['location']} opublikował {user['posts']} postów").add_to(
+            map)
+    map.save('mapa.html')

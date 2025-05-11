@@ -1,27 +1,26 @@
-from untils.controller import get_user_info, add_user , remove_user , update_user
-from untils.models import users
+from init.controller import get_user_info, add_user, remove_user, update_user, get_map
+from init.model import users
 
 def main():
+
     while True:
+        print("==========MENU=================")
+        print("0 - zamknij aplikacje")
+        print("1 - wyświetl co u znajomych")
+        print("2 - dodaj nowego użytkownika")
+        print("3 - usuń użytkownika")
+        print("4 - edytuj użytkownika")
+        print("5 - przygotuj mapę znajomych")
+        print("==============MENU===================")
 
-        print ("===========MENU=============")
-        print ("0 - koniec aplikacji")
-        print ("1 - wyświetl co u znajomych")
-        print ("2 - dodaj nowego użytkownika")
-        print ("3 - usuń użytkownika")
-        print ("4 - edytuj użytkownika")
-        print ("===========MENU=============")
-
-
-        choice = input("wybierz opcjie menu")
+        choice = input("wybierz opcje menu")
         if choice == '0': break
         if choice == '1': get_user_info(users)
         if choice == '2': add_user(users)
         if choice == '3': remove_user(users)
         if choice == '4': update_user(users)
+        if choice == '5': get_map(users)
 
-
-
-
-if __name__ == "__main__":
+if _name_ == "_main_":
     main()
+
